@@ -1,0 +1,32 @@
+     FFPPEM     IF   E           K disk    usropn infsr(*pssr)
+
+     D pssrDone        S               N   inz
+     D fatalProgram    PR                  extpgm('FATALPGM')
+     D
+     D empNo           S                   like(S1EMNO)
+     D a               S             10i 0 inz(20)
+     D b               S             10i 0
+     D c               S             10i 0
+
+      /copy QRPGLESRC,ERRSTS_H
+
+        monitor;
+           c = a / b;
+
+           chain empNo FPPEM;
+           open FPPEM;
+
+           on-error ERR_NOT_OPEN;
+              dsply 'File not opened';
+           on-error ERR_DIVIDE_BY_ZERO:ERR_DECIMAL_DATA;
+              dsply 'You have got a number wrong';
+           on-error *file;
+              dsply 'You screwd with the file';
+           on-error *all;
+              dsply 'Who knows what the hell went wrong';
+              exsr *pssr;
+        endmon;
+
+        *inlr = *on;
+
+      /copy QRPGLESRC,PSSRSTD

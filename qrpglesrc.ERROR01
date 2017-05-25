@@ -1,0 +1,13 @@
+     FFPPEM     IF   E           K disk    usropn
+
+     D empNo           S                   like(S1EMNO)
+     D a               S             10i 0 inz(20)
+     D b               S             10i 0
+     D c               S             10i 0
+
+        c = a / b;
+
+        chain empNo FPPEM;
+        open FPPEM;
+
+        *inlr = *on;

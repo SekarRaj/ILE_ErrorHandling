@@ -1,0 +1,30 @@
+     H dftactgrp(*no) actgrp('TEST') option(*srcstmt:*nodebugio:*nounref)
+
+     FFPPEM     IF   E           K disk
+
+     D ProgramProc     PR
+     D FileProc        PR
+
+         ProgramProc();
+         FileProc();
+         *inlr = *on;
+
+     PProgramProc      B
+     DProgramProc      PI
+     D a               S             10i 0 inz(20)
+     D b               S             10i 0
+     D c               S             10i 0
+
+         c = a / b;
+
+     PProgramProc      E
+
+     PFileProc         B
+     DFileProc         PI
+     D
+     D empNo           S                   like(S1EMNO)
+
+        chain empNo FPPEM;
+        open FPPEM;
+
+     PFileProc         E

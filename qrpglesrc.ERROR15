@@ -1,0 +1,5 @@
+     H dftactgrp(*no) actgrp('TEST3') option(*nodebugio:*srcstmt:*nounref)
+     D nest1           PR                  extpgm('ERROR16')
+
+        nest1();
+        *inlr = *on;

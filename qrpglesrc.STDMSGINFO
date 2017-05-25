@@ -1,0 +1,191 @@
+      /if not defined(ERR0100_PROTOTYPES)
+      /define ERR0100_PROTOTYPES
+      *Standard Error Structure of IBM APIs
+     D APIError        DS                  qualified
+     D  bytesProvided                10i 0 inz(%size(APIError))
+     D  bytesAvail                   10i 0 inz(0)
+     D  msgId                         7
+     D  reserved                      1
+     D  msgData                     240
+
+      *Receive message from program message queue
+     D RcvMsg          PR                  extpgm('QMHRCVPM')
+     D  msgInfo                    3000    options(*varsize)
+     D  msgInfoLen                   10i 0 const
+     D  formatName                    8    const
+     D  callStack                    10    const
+     D  callStackCtr                 10i 0 const
+     D  msgType                      10    const
+     D  msgKey                        4    const
+     D  waitTime                     10i 0 const
+     D  msgAction                    10    const
+     D  errorForApi                        likeds(APIError)
+
+      *Dynamic screen manager API
+     D CrtInpBuffer    PR            10i 0 extproc('QsnCrtInpBuf')
+     D  bufferSize                   10i 0 const
+     D  increment                    10i 0 const options(*omit)
+     D  maxSize                      10i 0 const options(*omit)
+     D  bufferHandle                 10i 0 options(*omit)
+     D  error                              likeds(APIError) options(*omit)
+
+      *Read Screen
+     D ReadScreen      PR            10i 0 extproc('QsnReadScr')
+     D  bytesRead                    10i 0 options(*omit)
+     D  bufferHandle                 10i 0 const options(*omit)
+     D  cmdBufferHandle...
+     D                               10i 0 const options(*omit)
+     D  envHandle                    10i 0 const options(*omit)
+     D  error                              likeds(APIError) options(*omit)
+
+      *Retrive pointer to data in input buffer
+     D RtvDataPtr      PR              *   extproc('QsnRtvDta')
+     D  bufferHandle                 10I 0 const options(*omit)
+     D  dataPointer                    *   options(*omit)
+     D  error                              likeds(APIError) options(*omit)
+
+      *Base formats
+     D RCVM0300        DS                  qualified template
+     D  bytesReturned                10i 0
+     D  bytesAvail                   10i 0
+     D  msgSeverity                  10i 0
+     D  msgId                         7
+     D  msgType                       2
+     D  msgKey                        4
+     D  msgFileName                  10
+     D  msgLibSpec                   10
+     D  msgLibUsed                   10
+     D  alertOption                   9
+     D  CCSIDCnvIndText...
+     D                               10i 0
+     D  CCSIDCnvIndData...
+     D                               10i 0
+     D  CCSIDMsg                     10i 0
+     D  CCSIDReplace                 10i 0
+     D  lenReplace1                  10i 0
+     D  lenReplace2                  10i 0
+     D  lenMsgReturn                 10i 0
+     D  lenMsgAvail                  10i 0
+     D  lenHelpReturn                10i 0
+     D  lenHelpAvail                 10i 0
+     D  lenSndrReturn                10i 0
+     D  lenSbdrAvail                 10i 0
+     D  msgData                    5000
+
+     D RCVM0300SndRcvInfo...
+     D                 DS                  qualified template
+     D  sendingJob                   10
+     D  sendingJobPrf                10
+     D  sendingJobNo                  6
+     D  dateSent                      7
+     D  timeSent                      6
+     D  sendingType                   1
+     D  receivingType                 1
+     D  sendingPgm                   10
+     D  sendingModule                10
+     D  sendingProc                 256
+     D                                1
+     D  noStateNosSending...
+     D                               10i 0
+     D  stateNosSending...
+     D                               30
+     D  receivingPgm                 10
+     D  receivingMod                 10
+     D  receivingProc               256
+     D  reserved                      1
+     D  noStateNosReceiving...
+     D                               10i 0
+     D  stateNosReceiving...
+     D                               30
+     D                                2
+     D  longSendingPgmNameOffset...
+     D                               10i 0
+     D  longSendingPgmNameLength...
+     D                               10i 0
+     D  longSendingProcNameOffset...
+     D                               10i 0
+     D  longSendingProcNameLength...
+     D                               10i 0
+     D  longReceivingProcNameOffset...
+     D                               10i 0
+     D  longReceivingProcNameLength...
+     D                               10i 0
+     D  microSeconds                  6
+     D  sendingUsrPrf                10
+     D  names                      4000
+
+      *Condition handler (CEE) API Prototype
+      *Registering condition handler
+     D RegisterHandler...
+     D                 PR                  extproc('CEEHDLR')
+     D  pConHandler                    *   procptr const
+     D  commArea                       *   const
+     D  feedBack                     12    options(*omit)
+
+      *UnRegister condition handler
+     D UnRegisterHandler...
+     D                 PR                  extproc('CEEHDLU')
+     D  pConHandler                    *   procptr const
+     D  feedBack                     12    options(*omit)
+
+      *Condition token passed to/from ILE handler
+     D Base_ConditionToken...
+     D                 DS                  qualified template
+     D  msgSev                        5i 0
+     D  msgNo                         2
+     D  reserved                      1
+     D  msgPrefix                     3
+     D  msgKey                        4
+     D
+
+      *Activation Group - Cleansing procedures
+     D EndAG           PR                  extproc('CEETREC')
+     D  language_RC                  10i 0 const options(*omit)
+     D  user_RC                      10i 0 const options(*omit)
+     D
+     D RegisterCancelStack...
+     D                 PR                  extproc('CEERTX')
+     D  pCancelProc                    *   procptr const
+     D  commArea                       *   const options(*omit)
+     D  feedBack                     12    options(*omit)
+     D
+     D UnRegisterCancelStack...
+     D                 PR                  extproc('CEEUTX')
+     D  pCancelProc                    *   procptr const
+     D  feedBack                     12    options(*omit)
+     D
+     D RegisterCancelAG...
+     D                 PR                  extproc('CEE4RAGE')
+     D  PCancelProc                    *   procptr const
+     D  feedBack                     12    options(*omit)
+     D
+     D SndPgmMsg       PR                  extpgm('QMHSNDPM')
+     D  errorMsgId                    7    const
+     D  msgFile                      20    const
+     D  msgData                    3000    const
+     D  msgDataLen                   10i 0 const
+     D  msgType                      10    const
+     D  callStack                    19    const
+     D  callStackCtr                 10i 0 const
+     D  msgKey                        4
+     D  ErrorForAPI                        like(APIError)
+     D
+     D Throw           PR                  extproc('Throw')
+     D  msgId                         7    const
+     D  msgDataIn                  3000    const varying options(*omit:*nopass)
+     D  msgFileIn                    20    const options(*nopass)
+     D
+     D Catch           PR                  extproc('Catch')
+     D  CaughtMessage                      likeds(Base_CaughtMessage)
+     D
+     D Base_CaughtMessage...
+     D                 DS                  qualified template
+     D  msgId                         7
+     D  msgFile                      20
+     D   msgFileName                 10    overlay(msgFile)
+     D   msgLibName                  10    overlay(msgFile:*next)
+     D  msgText                     132
+     D  msgData                    3000
+
+      /eof
+      /endif

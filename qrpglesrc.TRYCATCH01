@@ -1,0 +1,47 @@
+     H dftactgrp(*no) actgrp(*new) option(*srcstmt:*nodebugio:*nounref)
+
+     D FatalError      PR                  extpgm('FATALPGMA')
+     D
+     D ValidCosts      PR             7
+     D  BuyPrice                     11  2 const
+     D  SellPrice                    11  2 const
+     D
+     D Buy             S             11  2
+     D Sell            S             11  2
+     D Msg             S              7
+
+       dsply ' Enter Buying Price : ' ' ' Buy;
+       dsply ' Enter Selling Price : ' ' ' Sell;
+
+       msg = ValidCosts(Buy:Sell);
+       if msg <> *blanks;
+          dsply msg;
+       endif;
+
+       *inlr = *on;
+
+       BegSr *pssr;
+         monitor;
+           FatalError();
+         on-error;
+           dsply 'Oh shit!';
+         endmon;
+       EndSr '*CANCL';
+
+     PValidCosts       B
+     DValidCosts       PI             7
+     D  buyPrice                     11  2 const
+     D  sellPrice                    11  2 const
+     D
+     D errMsgId        S              7
+
+        select;
+          when buyPrice >= sellPrice;
+             errMsgId = 'ERR0001';
+          when (sellPrice / buyPrice) > 3;
+             errMsgId = 'ERR0002';
+        endsl;
+
+        return errmsgId;
+
+     PValidCosts       E

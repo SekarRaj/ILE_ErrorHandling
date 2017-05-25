@@ -1,0 +1,9 @@
+     A*%%TS  SD  20170522  022129  RAJARRA     REL-V7R1M0  5770-WDS
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A          R FATALERROR
+     A*%%TS  SD  20170522  022129  RAJARRA     REL-V7R1M0  5770-WDS
+     A  03                                  CA03(03 'Exit')
+     A                                 11 20'Oh Dear! It has all gone terribily-
+     A                                       wrong.'
+     A                                      COLOR(RED)

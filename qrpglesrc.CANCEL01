@@ -1,0 +1,67 @@
+     H dftactgrp(*no) actgrp('CANCEL') option(*srcstmt:*nodebugio:*nounref)
+
+      /copy QRPGLESRC,STDMSGINFO
+
+     D SubProc01       PR                  extpgm('CANCEL02')
+
+     D AGCancel        PR
+     D  AGMark                       10i 0 const
+     D  reason                       10i 0 const
+     D  resultCode                   10i 0
+     D  user_RC                      10i 0
+
+     D x               S             10i 0
+
+        x = x + 1;
+        dsply x;
+
+        if x > 2;
+           SubProc01();
+        endif;
+        return;
+
+       BegSr *inzsr;
+         RegisterCancelAG(%paddr('AGCANCEL'):*omit);
+       EndSr;
+
+     PAGCancel         B
+     DAGCancel         PI
+     D AGMark                        10i 0 const
+     D Reason                        10i 0 const
+     D ResultCode                    10i 0
+     D User_RC                       10i 0
+     D
+     DReasonDs         DS
+     D Reason0                       10i 0
+     D Reason1                        3i 0 overlay(Reason0)
+     D Reason2                        3i 0 overlay(Reason0:*next)
+     D Reason3                        3i 0 overlay(Reason0:*next)
+     D Reason4                        3i 0 overlay(Reason0:*next)
+     D
+     D END_NORMAL      C                   128
+     D END_RCLACTGRP   C                   32
+     D END_ENDJOB      C                   16
+     D END_CEETREC     C                   8
+     D END_FUNCGECK    C                   4
+
+        Reason0 = Reason;
+        if %bitand(Reason3:END_NORMAL) = x'00';
+           dsply 'AG ended normally';
+        else;
+           dsply 'AG ended abnormally';
+        endif;
+
+        select;
+          when %bitand(Reason3:END_RCLACTGRP) <> x'00';
+             dsply 'AG ended by RCLACTGRP';
+          when %bitand(Reason3:END_ENDJOB) <> x'00';
+             dsply 'AG ended by Job ending';
+          when %bitand(Reason3:END_CEETREC) <> x'00';
+             dsply 'AG ended by exit request (CEETREC)';
+          when %bitand(Reason3:END_FUNCGECK) <> x'00';
+             dsply 'AG ended unhandled function check';
+          other;
+             dsply 'AG ended';
+        endsl;
+
+     PAGCancel         E

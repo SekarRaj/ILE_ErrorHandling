@@ -1,0 +1,41 @@
+     H dftactgrp(*no) actgrp(*caller) option(*srcstmt:*nodebugio:*nounref)
+
+     FFPPEM     IF   E           K disk    usropn
+
+     D Nest1           PR                  extpgm('ERROR16')
+     D Nest2           PR
+     D ProgramProc     PR
+     D FileProc        PR
+     D
+     D Nest1           PI
+
+         Nest2();
+         FileProc();
+         *inlr = *on;
+
+     PNest2            B
+     DNest2            PI
+
+       ProgramProc();
+
+     PNest2            E
+
+     PProgramProc      B
+     DProgramProc      PI
+     D a               S             10i 0 inz(20)
+     D b               S             10i 0
+     D c               S             10i 0
+
+         c = a / b;
+
+     PProgramProc      E
+
+     PFileProc         B
+     DFileProc         PI
+     D
+     D empNo           S                   like(S1EMNO)
+
+        chain empNo FPPEM;
+        open FPPEM;
+
+     PFileProc         E

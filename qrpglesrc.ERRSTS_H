@@ -1,0 +1,28 @@
+      *SQL error and message codes
+       dcl-c  SQL_SUCCESS                                0;
+       dcl-c  SQL_REC_NOT_FOUND                        100;
+
+      *ILE error and message codes
+       dcl-c  ERR_VALUE_OUT_OF_RANGE                 00100;
+       dcl-c  ERR_DIVIDE_BY_ZERO                     00102;
+       dcl-c  ERR_INVALID_DATE                       00112;
+       dcl-c  ERR_ARRAY_INDEX                        00121;
+       dcl-c  ERR_OCCUR_OUT_OF_RANGE                 00122;
+       dcl-c  ERR_CALL_FAILED                        00202;
+       dcl-c  ERR_CALLING                            00211;
+       dcl-c  ERR_POINTER_OR_PARAMETER               00222;
+       dcl-c  ERR_DATA_AREA_NOT_FOUND                00401;
+       dcl-c  ERR_IN_OR_OUT                          00413;
+       dcl-c  ERR_USE_DATA_AREA                      00414;
+       dcl-c  ERR_CHANGE_DATA_AREA                   00415;
+       dcl-c  ERR_DECIMAL_DATA                       00907;
+       dcl-c  ERR_DUPLICATE_WRITE                    01021;
+       dcl-c  ERR_REFERENTIAL_CONSTRAINT             01022;
+       dcl-c  ERR_TRIGGER_BEFORE                     01023;
+       dcl-c  ERR_TRIGGER_AFTER                      01024;
+       dcl-c  ERR_NOT_OPEN                           01211;
+       dcl-c  ERR_RECORD_LOCKED                      01218;
+       dcl-c  ERR_UPDATE_WITHOUT_READ                01221;
+       dcl-c  ERR_CANNOT_ALLOCATE_DUE_TO_RC          01222;
+       dcl-c  ERR_WAIT_EXCEEDED                      01331;
+

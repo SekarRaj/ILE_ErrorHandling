@@ -1,0 +1,23 @@
+     FFPPEM     IF   E           K disk    usropn infsr(*pssr)
+
+     D pssrDone        S               N   inz
+     D fatalProgram    PR                  extpgm('FATALPGM')
+     D
+     D empNo           S                   like(S1EMNO)
+     D a               S             10i 0 inz(20)
+     D b               S             10i 0 inz(10)
+     D c               S             10i 0
+
+        c = a / b;
+
+        chain(e) empNo FPPEM;
+        if %error();
+           dsply 'The file is not opened';
+        endif;
+
+        chain empNo FPPEM;
+        open FPPEM;
+
+        *inlr = *on;
+
+      /copy QRPGLESRC,PSSRSTD

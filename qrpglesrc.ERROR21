@@ -1,0 +1,54 @@
+     H dftactgrp(*no) actgrp('TEST6') option(*nodebugio:*srcstmt:*nounref)
+
+      /copy QRPGLESRC,STDMSGINFO
+
+     D nest1           PR                  extpgm('ERROR16')
+     D FatalError      PR                  extpgm('FATALPGMA')
+     D
+     D ILEHandler      PR
+     D  tokenIn                            likeds(Base_ConditionToken) const
+     D  pCommArea                      *   const
+     D  action                       10i 0
+     D  tokenOut                           likeds(Base_ConditionToken)
+     D
+     D pILEHandler     S               *   procptr
+     D                                     inz(%paddr('ILEHANDLER'))
+     D
+     D
+
+        RegisterHandler(pILEHandler:*null:*omit);
+
+        nest1();
+
+        UnRegisterHandler(pILEHandler:*omit);
+
+        *inlr = *on;
+
+        begsr *pssr;
+          monitor;
+            FatalError();
+          on-error;
+            dsply 'Aggggghhhhh!';
+          endmon;
+        endsr '*CANCL';
+
+     P ILEHandler      B
+     D ILEHandler      PI
+     D  tokenIn                            likeds(Base_ConditionToken) const
+     D  pCommArea                      *   const
+     D  action                       10i 0
+     D  tokenOut                           likeds(Base_ConditionToken)
+     D
+     D RESUME          C                   10
+     D PERCOLATE       C                   20
+
+        select;
+          when tokenIn.msgPrefix = 'MCH' and tokenIn.msgNo = X'1211';
+             action = RESUME;
+          other;
+             action = PERCOLATE;
+        endsl;
+
+        return;
+
+     P ILEHandler      E

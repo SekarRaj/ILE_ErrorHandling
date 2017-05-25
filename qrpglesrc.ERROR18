@@ -1,0 +1,14 @@
+     H dftactgrp(*no) actgrp('TEST3') option(*nodebugio:*srcstmt:*nounref)
+     D FatalError      PR                  extpgm('FATALPGMA')
+     D nest1           PR                  extpgm('ERROR16')
+
+        nest1();
+        *inlr = *on;
+
+        begsr *pssr;
+          monitor;
+            FatalError();
+          on-error;
+            dsply 'Aggggghhhhh!';
+          endmon;
+        endsr '*CANCL';

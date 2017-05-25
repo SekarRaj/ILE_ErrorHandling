@@ -1,0 +1,126 @@
+     H dftactgrp(*no) actgrp(*caller) option(*srcstmt:*nodebugio:*nounref)
+
+      /copy QRPGLESRC,STDMSGINFO
+
+     D SubProc02       PR
+     D SubProc03       PR
+     D SubProc04       PR
+     D SubProc05       PR
+     D  Action                       10i 0 const
+
+     D AGCancelNext    PR
+     D  AGMark                       10i 0 const
+     D  reason                       10i 0 const
+     D  resultCode                   10i 0
+     D  user_RC                      10i 0
+     D
+     D CancelStack     PR
+     D  commArea                       *   const
+
+     D x               S             10i 0
+
+        SubProc02();
+        return;
+
+       BegSr *inzsr;
+         RegisterCancelAG(%paddr('AGCANCELNEXT'):*omit);
+       EndSr;
+
+     PAGCancelNext     B
+     DAGCancelNext     PI
+     D
+     D AGMark                        10i 0 const
+     D Reason                        10i 0 const
+     D ResultCode                    10i 0
+     D User_RC                       10i 0
+
+       dsply 'AGCancelNext in CANCEL02';
+
+     PAGCancelNext     E
+
+     PCancelStack      B
+     DCancelStack      PI
+     D commArea                        *   const
+     D
+     D msg             S             20    based(commArea)
+
+       dsply msg;
+
+     PCancelStack      E
+
+     PSubProc02        B
+     DSubProc02        PI
+     D
+     D msg             S             20    inz('Cancel SubProc02')
+
+        RegisterCancelStack(%paddr(CancelStack) :
+                            %addr(msg)          :
+                            *omit               );
+
+        SubProc03();
+
+     PSubProc02        E
+
+     PSubProc03        B
+     DSubProc03        PI
+     D
+     D msg             S             20    inz('Cancel SubProc03')
+
+       RegisterCancelStack(%paddr(CancelStack):
+                           %addr(msg)         :
+                           *omit              );
+
+        //Runnable code
+
+       UnRegisterCancelStack(%paddr(CancelStack) :
+                             *omit               );
+
+       monitor;
+         SubProc04();
+       on-error;
+       endmon;
+
+       SubProc05(0);
+       SubProc05(1);
+
+     PSubProc03        E
+
+     PSubProc04        B
+     DSubProc04        PI
+     D msg             S             20    inz('Cancel SubProc04')
+     D a               S             10i 0 inz(20)
+     D b               S             10i 0
+     D c               S             10i 0
+
+       RegisterCancelStack(%paddr(CancelStack):
+                           %addr(msg)         :
+                           *omit              );
+
+       c = a / b;
+
+     PSubProc04        E
+
+     PSubProc05        B
+     DSubProc05        PI
+     D Action                        10i 0 const
+     D
+     D msg1            S             20    inz('Cancel SubProc05 1')
+     D msg2            S             20    inz('Cancel SubProc05 2')
+     D a               S             10i 0 inz(20)
+     D b               S             10i 0
+     D c               S             10i 0
+
+       RegisterCancelStack(%paddr(CancelStack) :
+                           %addr(msg1)         :
+                           *omit               );
+
+
+       RegisterCancelStack(%paddr(CancelStack) :
+                           %addr(msg2)         :
+                           *omit               );
+
+       if Action = 1;
+          EndAG(*omit:*omit);
+       endif;
+
+     PSubProc05        E

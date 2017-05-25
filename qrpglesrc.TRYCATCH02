@@ -1,0 +1,49 @@
+     H dftactgrp(*no) actgrp(*new) option(*srcstmt:*nodebugio:*nounref)
+     H bnddir('ERRSRV')
+
+      /copy QRPGLESRC,STDMSGINFO
+
+     D FatalError      PR                  extpgm('FATALPGMA')
+     D
+     D ValidCosts      PR
+     D  BuyPrice                     11  2 const
+     D  SellPrice                    11  2 const
+     D
+     D CaughtMessage   DS                  likeds(Base_CaughtMessage)
+     D Buy             S             11  2
+     D Sell            S             11  2
+
+       dsply ' Enter Buying Price : ' ' ' Buy;
+       dsply ' Enter Selling Price : ' ' ' Sell;
+
+       monitor;
+          ValidCosts(Buy:Sell);
+       on-error;
+          catch(CaughtMessage);
+          dsply CaughtMessage.msgId;
+       endmon;
+
+       *inlr = *on;
+
+       BegSr *pssr;
+         monitor;
+           FatalError();
+         on-error;
+           dsply 'Oh shit!';
+         endmon;
+       EndSr '*CANCL';
+
+     PValidCosts       B
+     DValidCosts       PI
+     D  buyPrice                     11  2 const
+     D  sellPrice                    11  2 const
+
+        select;
+          when buyPrice >= sellPrice;
+             Throw('ERR0001');
+          when (sellPrice / buyPrice) > 3;
+             Throw('ERR0002');
+        endsl;
+        return;
+
+     PValidCosts       E

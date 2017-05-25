@@ -1,0 +1,80 @@
+     H nomain option(*srcstmt:*nodebugio)
+
+      /copy QRPGLESRC,STDMSGINFO
+
+     PThrow            B                   export
+     DThrow            PI
+     D msgId                          7    const
+     D msgDataIn                   3000    const varying options(*omit:*nopass)
+     D msgFileIn                     20    const options(*nopass)
+     D
+     D msgFile         S             20    inz('ERPMSG    *LIBL     ')
+     D msgData         S           3000
+     D msgKey          S              4
+
+       if %parms() > 2;
+          msgFile = msgFileIn;
+       endif;
+
+       if %parms() > 1;
+          if %addr(msgDataIn) <> *null;
+             msgData = msgDataIn;
+          endif;
+       endif;
+
+       SndPgmMsg(msgId                :
+                 msgFile              :
+                 msgData              :
+                 %len(%trim(msgData)) :
+                 '*ESCAPE'            :
+                 '*'                  :
+                 1                    :
+                 msgKey               :
+                 APIError             );
+
+       return;
+
+     PThrow            E
+
+     PCatch            B                   export
+     DCatch            PI
+     D CaughtMessage                       likeds(Base_CaughtMessage)
+     D
+     D msgBack         DS                  likeds(RCVM0300) inz
+     D setMsgKey       S              4    inz(*allx'00')
+
+
+       clear CaughtMessage;
+       RcvMsg(msgBack        :
+              %size(msgBack) :
+              'RCVM0300'     :
+              '*'            :
+              1              :
+              '*PRV'         :
+              setMsgKey      :
+              0              :
+              '*REMOVE'      :
+              APIError       );
+
+       if msgBack.bytesAvail > *zeros;
+          CaughtMessage.msgId        = msgBack.msgId;
+          CaughtMessage.msgFileName  = msgBack.msgFileName;
+          CaughtMessage.msgLibName   = msgBack.msgLibUsed;
+          CaughtMessage.msgText      = %subst(msgBack.msgData         :
+                                              msgBack.LenReplace1 + 1 :
+                                              msgBack.LenMsgReturn);
+
+          if msgBack.lenReplace1 > 0;
+             CaughtMessage.msgData = %subst(msgBack.msgData           :
+                                            1                         :
+                                            msgBack.LenReplace1 + 1   );
+          endif;
+       endif;
+
+       if %subst(CaughtMessage.msgId:1:3) <> 'ERR';
+          Throw(CaughtMessage.msgId   :
+                CaughtMessage.msgData :
+                CaughtMessage.msgFile );
+       endif;
+
+     PCatch            E

@@ -1,0 +1,19 @@
+             dclf       file(FATALDSPF)
+             dcl        &job       *char (10)
+             dcl        &user      *char (10)
+             dcl        &nbr       *char (6)
+             dcl        &type      *char (1)
+             dcl        &reply     *char (1)
+
+             dspjoblog  output(*print)
+             sndmsg ('It has all gone terribily wrong') tomsgq(QSysOpr)
+
+             rtvjoba  job(&job) user(&user) Nbr(&nbr) type(&type)
+
+       reshow:
+             if (&type = '1') sndrcvf rcdfmt(FATALERROR)
+             else sndusrmsg msg('You must end job '  *cat &nbr *tcat '/'   +
+                                *cat &user *tcat '/' *cat &job *bcat       +
+                                'now. Error reports have been submitted.') +
+                                tomsgq(*sysopr) msgrpy(&reply)
+             /*goto reshow */

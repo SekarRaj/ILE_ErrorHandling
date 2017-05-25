@@ -1,0 +1,8 @@
+       BegSr *pssr;
+         dump(a);
+         if not pssrDone;
+            pssrDone = *on;
+            //fatalProgram();
+         endif;
+
+       EndSr '*CANCL';

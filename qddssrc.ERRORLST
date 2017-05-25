@@ -1,0 +1,127 @@
+     A          R HEAD
+     A                                      SKIPB(03)
+     A                                     4'PAGE: '
+     A                                    +0PAGNBR EDTCDE(Z)
+     A                                    33'EXCEPTION/ERROR REPORT'
+     A                                      SPACEA(2)
+     A                                     4'DATE: '
+     A                                    +0DATE EDTCDE(Y)
+     A                                    21'TIME: '
+     A                                    +0TIME
+     A                                    37'JOB: '
+     A            JOBNO          6   O    +0
+     A            USER          10   O    +1
+     A            NAME          10   O    +1
+     A                                      SPACEA(2)
+     A                                     4'AN UNEXPECTED EXCEPTION/ERROR WAS -
+     A                                       DETECTED IN A PROGRAM'
+     A                                      SPACEA(1)
+     A                                     4'THE MESSAGE DETAILS ARE : '
+     A
+     A          R DETAIL
+     A                                      SPACEB(2)
+     A                                     4'PROGRAM:  '
+     A            PROGRAM       10   O    +0SPACEA(1)
+     A                                     4'MODULE  '
+     A            MODULE        10   O    +0SPACEA(1)
+     A                                     4'PROCEUDRE  '
+     A            PROCEDURE     60   O    +0SPACEA(1)
+     A                                     4'STATEMENT  '
+     A            STATEMENT     10   O    +0SPACEA(1)
+     A            MSGTEXT       80   O    +0SPACEA(2)
+     A            HELPTEXT01    80   O    +0SPACEA(1)
+     A            HELPTEXT02    80   O    +0SPACEA(1)
+     A            HELPTEXT03    80   O    +0SPACEA(1)
+     A            HELPTEXT04    80   O    +0SPACEA(1)
+     A            HELPTEXT05    80   O    +0SPACEA(1)
+     A            HELPTEXT06    80   O    +0SPACEA(1)
+     A            HELPTEXT07    80   O    +0SPACEA(1)
+     A            HELPTEXT08    80   O    +0SPACEA(1)
+     A            HELPTEXT09    80   O    +0SPACEA(1)
+     A            HELPTEXT10    80   O    +0SPACEA(1)
+     A
+     A          R SCREEN80                  SPACEB(2)
+     A                                     1'----------'
+     A                                   +10'----------'
+     A                                   +10'----------'
+     A                                   +10'----------'
+     A                                      SPACEA(1)
+     A            ROW8001       80         1SPACEA(1)
+     A            ROW8002       80         1SPACEA(1)
+     A            ROW8003       80         1SPACEA(1)
+     A            ROW8004       80         1SPACEA(1)
+     A            ROW8005       80         1SPACEA(1)
+     A            ROW8006       80         1SPACEA(1)
+     A            ROW8007       80         1SPACEA(1)
+     A            ROW8008       80         1SPACEA(1)
+     A            ROW8009       80         1SPACEA(1)
+     A            ROW8010       80         1SPACEA(1)
+     A            ROW8011       80         1SPACEA(1)
+     A            ROW8012       80         1SPACEA(1)
+     A            ROW8013       80         1SPACEA(1)
+     A            ROW8014       80         1SPACEA(1)
+     A            ROW8015       80         1SPACEA(1)
+     A            ROW8016       80         1SPACEA(1)
+     A            ROW8017       80         1SPACEA(1)
+     A            ROW8018       80         1SPACEA(1)
+     A            ROW8019       80         1SPACEA(1)
+     A            ROW8020       80         1SPACEA(1)
+     A            ROW8021       80         1SPACEA(1)
+     A            ROW8022       80         1SPACEA(1)
+     A            ROW8023       80         1SPACEA(1)
+     A            ROW8024       80         1SPACEA(1)
+     A                                     1'----------'
+     A                                   +10'----------'
+     A                                   +10'----------'
+     A                                   +10'----------'
+     A
+     A          R SCREEN132                 SPACEB(2)
+     A                                     1'----------'
+     A                                   +10'----------'
+     A                                   +10'----------'
+     A                                   +10'----------'
+     A                                   +10'----------'
+     A                                   +10'----------'
+     A                                   +10'----------'
+     A                                   +10'----------'
+     A                                   +10'----------'
+     A            ROW13201     132         1SPACEA(1)
+     A            ROW13202     132         1SPACEA(1)
+     A            ROW13203     132         1SPACEA(1)
+     A            ROW13204     132         1SPACEA(1)
+     A            ROW13205     132         1SPACEA(1)
+     A            ROW13206     132         1SPACEA(1)
+     A            ROW13207     132         1SPACEA(1)
+     A            ROW13208     132         1SPACEA(1)
+     A            ROW13209     132         1SPACEA(1)
+     A            ROW13210     132         1SPACEA(1)
+     A            ROW13211     132         1SPACEA(1)
+     A            ROW13212     132         1SPACEA(1)
+     A            ROW13213     132         1SPACEA(1)
+     A            ROW13214     132         1SPACEA(1)
+     A            ROW13215     132         1SPACEA(1)
+     A            ROW13216     132         1SPACEA(1)
+     A            ROW13217     132         1SPACEA(1)
+     A            ROW13218     132         1SPACEA(1)
+     A            ROW13219     132         1SPACEA(1)
+     A            ROW13220     132         1SPACEA(1)
+     A            ROW13221     132         1SPACEA(1)
+     A            ROW13222     132         1SPACEA(1)
+     A            ROW13223     132         1SPACEA(1)
+     A            ROW13224     132         1SPACEA(1)
+     A            ROW13225     132         1SPACEA(1)
+     A            ROW13226     132         1SPACEA(1)
+     A            ROW13227     132         1SPACEA(1)
+     A                                     1'----------'
+     A                                   +10'----------'
+     A                                   +10'----------'
+     A                                   +10'----------'
+     A                                   +10'----------'
+     A                                   +10'----------'
+     A                                   +10'----------'
+     A                                   +10'----------'
+     A                                   +10'----------'
+     A                                      SPACEA(1)
+     A
+     A          R FOOTER                    SPACEB(3)
+     A                                     4'***ERROR DETAILS COMPLETE***'
